@@ -1,0 +1,7 @@
+ALTER TABLE user_products ADD COLUMN label_image_path VARCHAR(255);
+
+ALTER TABLE plants ADD COLUMN current_comment TEXT AFTER family;
+
+ALTER TABLE user_product_additives ADD `status` BOOLEAN;
+
+ALTER TABLE user_product_photos ADD `status` BOOLEAN;

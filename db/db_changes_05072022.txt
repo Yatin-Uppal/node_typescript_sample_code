@@ -1,0 +1,4 @@
+ALTER TABLE users_profiles MODIFY COLUMN updated_by BIGINT UNSIGNED DEFAULT NULL;
+
+ALTER TABLE user_product_additive_replacements DROP COLUMN plant_extraction_id;
+ALTER TABLE user_product_additive_replacements ADD COLUMN additives_plant_replacement_id BIGINT UNSIGNED AFTER user_product_id;

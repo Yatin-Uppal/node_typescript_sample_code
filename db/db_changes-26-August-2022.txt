@@ -1,0 +1,40 @@
+
+CREATE TABLE `charaka_202207271321`.`plants_sub_parts` (`id` int AUTO_INCREMENT,`name` text,`status` tinyint DEFAULT '1',`created_at` timestamp,`updated_at` timestamp, PRIMARY KEY (id));
+
+
+INSERT INTO `charaka_202207271321`.`plants_sub_parts` (`name`, `status`) VALUES ('Gum', 1);
+INSERT INTO `charaka_202207271321`.`plants_sub_parts` (`name`, `status`) VALUES ('Whole seed', 1);
+INSERT INTO `charaka_202207271321`.`plants_sub_parts` (`id`, `name`, `status`) VALUES (DEFAULT, 'Husk', 1);
+INSERT INTO `charaka_202207271321`.`plants_sub_parts` (`name`, `status`) VALUES ('Starch', 1);
+INSERT INTO `charaka_202207271321`.`plants_sub_parts` (`name`, `status`) VALUES ('Whole flower', 1);
+INSERT INTO `charaka_202207271321`.`plants_sub_parts` (`name`, `status`) VALUES ('Pollen', 1);
+INSERT INTO `charaka_202207271321`.`plants_sub_parts` (`name`, `status`) VALUES ('Fiber', 1);
+INSERT INTO `charaka_202207271321`.`plants_sub_parts` (`name`, `status`) VALUES ('Peel', 1);
+INSERT INTO `charaka_202207271321`.`plants_sub_parts` (`name`, `status`) VALUES ('Pulp', 1);
+INSERT INTO `charaka_202207271321`.`plants_sub_parts` (`name`, `status`) VALUES ('Skin', 1);
+INSERT INTO `charaka_202207271321`.`plants_sub_parts` (`name`) VALUES ('Whole root');
+INSERT INTO `charaka_202207271321`.`plants_sub_parts` (`name`) VALUES ('Whole Vegetable');
+INSERT INTO `charaka_202207271321`.`plants_sub_parts` (`name`) VALUES ('Whole shoot');
+
+
+CREATE TABLE `charaka_202207271321`.`plants_parts_subparts` (`id` int AUTO_INCREMENT,`plant_part_id` bigint unsigned,`plant_subpart_id` bigint unsigned,`status` tinyint(1) DEFAULT '1',`created_at` timestamp,`updated_at` timestamp, PRIMARY KEY (id));
+
+
+INSERT INTO `charaka_202207271321`.`plants_parts_subparts` (`plant_part_id`, `plant_subpart_id`) VALUES (15, 1);
+INSERT INTO `charaka_202207271321`.`plants_parts_subparts` (`plant_part_id`, `plant_subpart_id`) VALUES (15, 2);
+INSERT INTO `charaka_202207271321`.`plants_parts_subparts` (`plant_part_id`, `plant_subpart_id`) VALUES (15, 3);
+
+
+UPDATE `charaka_202207271321`.`plants_parts` SET `name` = 'Bark', `status` = 1 WHERE `id` = 5;
+
+
+
+INSERT INTO `charaka_202207271321`.`plants_parts_forms` (`plant_part_id`, `form_id`, `status`) VALUES (5, 1, 1);
+INSERT INTO `charaka_202207271321`.`plants_parts_forms` (`plant_part_id`, `form_id`, `status`) VALUES (5, 5, 1);
+INSERT INTO `charaka_202207271321`.`plants_parts_forms` (`plant_part_id`, `form_id`, `status`) VALUES (5, 14, 1);
+
+ALTER TABLE `charaka_202207271321`.`plants_extractions`
+ADD COLUMN `plant_sub_part_id` bigint unsigned NULL AFTER `updated_by`;
+
+
+ALTER TABLE plants_parts_subparts RENAME COLUMN plant_subpart_id TO plant_sub_part_id;

@@ -1,0 +1,4 @@
+ALTER TABLE additives_plant_replacements DROP COLUMN plant_part_id;
+ALTER TABLE additives_plant_replacements DROP COLUMN plant_id;
+ALTER TABLE plants_activity_logs MODIFY activity_log JSON;
+ALTER TABLE additives_activity_logs MODIFY activity_log JSON;

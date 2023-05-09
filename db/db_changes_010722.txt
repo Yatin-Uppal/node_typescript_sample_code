@@ -1,0 +1,17 @@
+
+DROP TABLE IF EXISTS `user_product_activity_log`;
+
+CREATE TABLE `user_product_activity_logs` (
+  `id` BIGINT UNSIGNED NOT NULL,
+  `user_product_id` BIGINT UNSIGNED DEFAULT NULL,
+  `user_id` BIGINT UNSIGNED DEFAULT NULL,
+  `activity_log` JSON DEFAULT NULL,
+  `user_agent` TEXT,
+  `header_request` JSON DEFAULT NULL,
+  `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `user_product_id` (`user_product_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `user_product_activity_log_ibfk_1` FOREIGN KEY (`user_product_id`) REFERENCES `user_products` (`id`),
+  CONSTRAINT `user_product_activity_log_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+);

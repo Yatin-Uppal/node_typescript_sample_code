@@ -1,0 +1,286 @@
+ALTER TABLE plants_functionalities  ADD explanation text AFTER functionality_id;
+ALTER TABLE plants_functionalities  ADD bio_active_compounds text AFTER functionality_id;
+ALTER TABLE plants_functionalities  ADD comment text AFTER functionality_id;
+ALTER TABLE plants_functionalities  ADD editable_parts text AFTER functionality_id;
+ALTER TABLE plants_functionalities  ADD source text AFTER functionality_id;
+ALTER TABLE plants_functionalities  ADD source_id int AFTER source;
+ALTER TABLE plants_functionalities  ADD source_link text AFTER source_id;
+
+
+CREATE TABLE `statuses` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` bigint unsigned DEFAULT NULL,
+  `updated_by` bigint unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by` (`created_by`),
+  KEY `updated_by` (`updated_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='This table will store the list of unique status an additive or a plant can have.'
+
+CREATE TABLE `source` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` text DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` bigint unsigned DEFAULT NULL,
+  `updated_by` bigint unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by` (`created_by`),
+  KEY `updated_by` (`updated_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+
+
+CREATE TABLE `plants_images` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `plant_id` bigint unsigned DEFAULT NULL,
+  `file_name` varchar(250) DEFAULT NULL,
+  `file_path` varchar(250) DEFAULT NULL,
+  `default` tinyint(1) DEFAULT '1',	
+  `status` tinyint(1) DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` bigint unsigned DEFAULT NULL,
+  `updated_by` bigint unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by` (`created_by`),
+  KEY `updated_by` (`updated_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `plants_parts` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` bigint unsigned DEFAULT NULL,
+  `updated_by` bigint unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by` (`created_by`),
+  KEY `updated_by` (`updated_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci 
+
+ALTER TABLE plants_functionalities  ADD plant_part_id bigint unsigned AFTER plant_id;
+
+ALTER TABLE plants_nutrional_properties  ADD plant_part_id bigint unsigned AFTER plant_id;
+ALTER TABLE plants_organoleptic_sensory_properties  ADD plant_part_id bigint unsigned AFTER plant_id;
+ALTER TABLE plants_physicochemical_properties  ADD plant_part_id bigint unsigned AFTER plant_id;
+
+
+
+CREATE TABLE `plants_tasks` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `plant_id` bigint unsigned DEFAULT NULL,
+  `assigned_to` bigint unsigned DEFAULT NULL,
+  `research_stage_id` int DEFAULT NULL,
+  `comment` text,
+  `due_date` timestamp NULL DEFAULT NULL,
+  `created_by` bigint unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_by` bigint unsigned DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `completed_at` timestamp NULL DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `plant_id` (`plant_id`),
+  KEY `assigned_by` (`created_by`),
+  KEY `assigned_to` (`assigned_to`),
+  KEY `current_research_stage_id` (`research_stage_id`),
+  KEY `updated_by` (`updated_by`),
+  CONSTRAINT `plants_tasks_ibfk_1` FOREIGN KEY (`plant_id`) REFERENCES `plants` (`id`),
+  CONSTRAINT `plants_tasks_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
+  CONSTRAINT `plants_tasks_ibfk_3` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`id`),
+  CONSTRAINT `plants_tasks_ibfk_5` FOREIGN KEY (`research_stage_id`) REFERENCES `research_stages` (`id`),
+  CONSTRAINT `plants_tasks_ibfk_6` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='This table will store tasks being assigned to users for an plant.';
+
+
+CREATE TABLE `plants_tasks_feedbacks` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `plant_tasks_id` bigint unsigned DEFAULT NULL,
+  `feedback` text,
+  `created_by` bigint unsigned DEFAULT NULL,
+  `updated_by` bigint unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `plant_tasks_id` (`plant_tasks_id`),
+  KEY `created_by` (`created_by`),
+  KEY `updated_by` (`updated_by`),
+  CONSTRAINT `plants_tasks_feedbacks_ibfk_1` FOREIGN KEY (`plant_tasks_id`) REFERENCES `plants_tasks` (`id`),
+  CONSTRAINT `plants_tasks_feedbacks_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
+  CONSTRAINT `plants_tasks_feedbacks_ibfk_3` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `plants_functionalities` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `plant_id` bigint unsigned DEFAULT NULL,
+  `functionality_id` int DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` bigint unsigned DEFAULT NULL,
+  `updated_by` bigint unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `plant_id` (`plant_id`),
+  KEY `function_id` (`functionality_id`),
+  KEY `created_by` (`created_by`),
+  KEY `updated_by` (`updated_by`),
+  CONSTRAINT `plants_functionalities_ibfk_1` FOREIGN KEY (`plant_id`) REFERENCES `plants` (`id`),
+  CONSTRAINT `plants_functionalities_ibfk_2` FOREIGN KEY (`functionality_id`) REFERENCES `functionalities` (`id`),
+  CONSTRAINT `plants_functionalities_ibfk_3` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
+  CONSTRAINT `plants_functionalities_ibfk_4` FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='This is a mapping table between plants and functionalities tables';
+
+
+
+// created 3 tables for plant , date :- 19/05/2022
+
+CREATE TABLE `plants_ayurvedas` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `plant_id` bigint unsigned DEFAULT NULL,
+  `plant_part_id` bigint unsigned DEFAULT NULL,
+  `rasa` text,
+  `guna` text,
+  `dosha` text,
+  `panchabuta` text,
+  `temperature` text,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` bigint unsigned DEFAULT NULL,
+  `updated_by` bigint unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='This table will store the ayurveda of plants.'
+
+
+CREATE TABLE `plants_sustainabilities` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `plant_id` bigint unsigned DEFAULT NULL,
+  `plant_part_id` bigint unsigned DEFAULT NULL,
+  `zone_availability` text,
+  `land_consumption` text,
+  `water_consumption` text,
+  `energy_consumption` text,
+  `time_consumption` text,
+  `carbon_footprint` text,
+  `social_concerns` tinyint(1) DEFAULT NULL,
+  `social_concerns_explanation` text,
+  `Sources_of_info` text,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` bigint unsigned DEFAULT NULL,
+  `updated_by` bigint unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='This table will store the sustainability of plants.'
+
+
+CREATE TABLE `plants_toxicologies` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `plant_id` bigint unsigned DEFAULT NULL,
+  `plant_part_id` bigint unsigned DEFAULT NULL,
+  `toxicity` tinyint(1) DEFAULT NULL,
+  `health_related_concern` text,
+  `explanation` text,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` bigint unsigned DEFAULT NULL,
+  `updated_by` bigint unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='This table will store the toxicology of plants.'
+
+ALTER TABLE plants_functionalities  ADD plant_sub_part varchar(250) DEFAULT NULL AFTER functionality_id;
+
+ALTER TABLE additives_functionalities  ADD additive_sub_part varchar(250) DEFAULT NULL AFTER functionality_id;
+
+
+// additives_plant_replacements table update , date :- 23/05/2022
+
+ALTER TABLE additives_plant_replacements  ADD plant_part_id bigint unsigned DEFAULT NULL AFTER plant_id;
+
+
+// adding image column in user profile table, date:- 25/10/2022
+
+ALTER TABLE users_profiles  ADD profile_image varchar(100) DEFAULT NULL AFTER user_id;
+
+//add missing columns in plants table, date:- 26/10/2022
+
+ALTER TABLE plants ADD editable_use varchar(255) DEFAULT NULL after family;
+ALTER TABLE plants ADD comment TEXT after family;
+ALTER TABLE plants RENAME COLUMN description TO remarks;
+ALTER TABLE plants RENAME COLUMN description TO remarks;
+
+
+ALTER TABLE plants RENAME COLUMN editable_use TO edible_use;
+ALTER TABLE plants_functionalities RENAME COLUMN editable_parts TO edible_parts;
+
+
+
+// plant processes tables and dependent tables, date:- 06/june/2022
+
+CREATE TABLE `forms` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` bigint unsigned DEFAULT NULL,
+  `updated_by` bigint unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by` (`created_by`),
+  KEY `updated_by` (`updated_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `plants_extractions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `plant_id` bigint unsigned DEFAULT NULL,
+  `plant_part_id` bigint unsigned DEFAULT NULL,
+  `form_id` bigint unsigned DEFAULT NULL,
+  `preparation` text,
+  `status` tinyint(1) DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_by` bigint unsigned DEFAULT NULL,
+  `updated_by` bigint unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+
+ALTER TABLE plants_physicochemical_properties RENAME COLUMN plant_combination_id TO plant_extraction_id;
+ALTER TABLE plants_nutrional_properties RENAME COLUMN plant_combination_id TO plant_extraction_id;
+ALTER TABLE plants_organoleptic_sensory_properties RENAME COLUMN plant_combination_id TO plant_extraction_id;
+ALTER TABLE plants_toxicologies RENAME COLUMN plant_combination_id TO plant_extraction_id;
+ALTER TABLE plants_sustainabilities RENAME COLUMN plant_combination_id TO plant_extraction_id;
+ALTER TABLE plants_ayurvedas RENAME COLUMN plant_combination_id TO plant_extraction_id;
+
+
+ALTER TABLE additives RENAME COLUMN number TO enumber;
+ALTER TABLE additives  ADD prior_research_ids varchar(250) AFTER enumber;
+ALTER TABLE additives  ADD comments text AFTER max_level;
+ALTER TABLE additives  ADD remarks text AFTER max_level;
+
+ALTER TABLE additives  ADD food_category_id int DEFAULT NULL AFTER name;
+ALTER TABLE additives  ADD product_category_id int DEFAULT NULL AFTER name;
+ALTER TABLE additives  ADD functionality_id int DEFAULT NULL AFTER name;
+
+ALTER TABLE users_profiles ADD avatar varchar(100) DEFAULT NULL AFTER profile_image;
+ALTER TABLE plants_tasks ADD assigned_at timestamp NULL DEFAULT NULL AFTER assigned_to;
+ALTER TABLE additives_tasks ADD assigned_at timestamp NULL DEFAULT NULL AFTER assigned_to;
+
+ALTER TABLE plants_activity_logs MODIFY header_request JSON;
+ALTER TABLE additives_activity_logs MODIFY header_request JSON;
+
+ALTER TABLE plants_activity_logs MODIFY user_agent text;
+ALTER TABLE additives_activity_logs MODIFY user_agent text;
+
+ALTER TABLE additives_synonyms ADD language_id int unsigned DEFAULT NULL AFTER name;

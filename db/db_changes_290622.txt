@@ -1,0 +1,10 @@
+ALTER TABLE plants_activity_logs MODIFY header_request JSON;
+ALTER TABLE additives_activity_logs MODIFY header_request JSON;
+
+ALTER TABLE plants_activity_logs MODIFY user_agent text;
+ALTER TABLE additives_activity_logs MODIFY user_agent text;
+
+ALTER TABLE additives_synonyms ADD language_id int DEFAULT NULL AFTER additive_id;
+
+ALTER TABLE `user_product_activity_log` ADD COLUMN user_agent TEXT AFTER activity_log;
+ALTER TABLE `user_product_activity_log` ADD COLUMN header_request JSON AFTER user_agent;

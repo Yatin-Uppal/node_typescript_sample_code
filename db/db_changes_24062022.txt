@@ -1,0 +1,5 @@
+ALTER TABLE `users_profiles` ADD COLUMN country_code INT AFTER profile_image;
+ALTER TABLE additives_plant_replacements ADD COLUMN plant_functionality_id INT AFTER additive_id;
+ALTER TABLE user_product_additive_replacements DROP COLUMN deleted_at;
+ALTER TABLE user_product_additive_replacements ADD COLUMN `status` BOOLEAN DEFAULT 1 AFTER user_product_id;
+ALTER TABLE user_product_additive_replacements MODIFY COLUMN plant_extraction_id int AFTER user_product_id;

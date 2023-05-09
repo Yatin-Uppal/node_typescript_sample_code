@@ -1,0 +1,5 @@
+ALTER TABLE `charaka`.`plants` 
+ADD COLUMN `isOriginal` TINYINT NULL DEFAULT NULL AFTER `source_database_id`;
+
+ALTER TABLE `charaka_202207271321`.`plants` 
+CHANGE COLUMN `isOriginal` `is_original` TINYINT NULL DEFAULT NULL ;

@@ -1,0 +1,5 @@
+ALTER TABLE `charaka_202207271321`.`additives_plant_replacements_groups_details` 
+RENAME TO  `charaka_202207271321`.`user_product_replacements_groups_details`;
+
+ALTER TABLE `charaka_202207271321`.`additives_plant_replacements_groups` 
+RENAME TO  `charaka_202207271321`.`user_product_replacements_groups`;

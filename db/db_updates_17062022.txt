@@ -1,0 +1,1 @@
+INSERT INTO product_categories(`name`) VALUES ('Confectionery'),('Meat'),('Bakery');
